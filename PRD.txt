@@ -1,0 +1,33 @@
+Product Requirements Document (PRD) for CodeRunner Extension
+
+Overview
+The goal of this extension is to streamline the process of running projects on different devices by automating the detection and communication of project ports. Users will be able to scan a QR code displayed in the terminal, allowing them to access their project on other devices without manually entering IP addresses.
+
+Features
+Port Detection: Automatically detect the port number when a project is run locally.
+QR Code Generation: Generate and display a QR code in the terminal that contains the project's URL (e.g., http://localhost:port).
+Cross-Device Testing: Enable users to test their projects on other devices by scanning the QR code with a browser.
+User-Friendly Interface: Provide clear instructions and error handling within the extension for optimal user experience.
+Requirements
+Node.js Environment: Ensure compatibility with Node.js applications.
+Web Server Support: The project must be run using a web server (e.g., Express, Koa).
+QR Code Library: Integrate a QR code generation library (e.g., qrcode-terminal for terminal display).
+Network Detection: Detect the local network IP address of the machine where the extension is running.
+Implementation Plan
+Port Detection:
+Use a web server framework to capture the port number on which the project is running.
+QR Code Generation:
+Utilize a QR code library to generate a URL that includes the local IP address and detected port number.
+Integration with VS Code:
+Develop a VS Code extension that hooks into project run events and integrates the above functionalities.
+User Interface:
+Display instructions in the terminal on how to scan the QR code and provide feedback when successful.
+Testing Plan
+Local Environment: Test the extension locally to ensure it captures port numbers correctly and generates valid QR codes.
+Network Simulation: Simulate different network environments to verify that the QR code can be scanned from other devices.
+Error Handling: Ensure that the extension handles errors gracefully, such as when a project is not running or the local network configuration changes.
+Timeline
+Week 1: Requirements gathering and initial design.
+Week 2-4: Development of port detection and QR code generation functionalities.
+Week 5: Integration with VS Code, testing, and final adjustments.
+Week 6: Documentation and release preparation.
