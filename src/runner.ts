@@ -52,7 +52,7 @@ export function runDevServerAndDetectPort(workspaceRoot: string, details: Projec
             }
         } else {
              command = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-             args = ['http-server', '-p', '8080'];
+             args = ['-y', 'http-server', '-p', '8080'];
         }
 
         ptyWriteEmitter = new vscode.EventEmitter<string>();

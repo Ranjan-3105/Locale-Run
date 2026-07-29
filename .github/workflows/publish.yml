@@ -1,0 +1,50 @@
+name: Publish Extension
+
+# Triggers whenever you push a tag like v1.0.0, v1.2.3, etc.
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compile / build extension
+        run: npm run compile
+        # If your build script has a different name (e.g. "build" or "package"),
+        # update this to match your package.json "scripts" section.
+
+      # - name: Run tests
+      #   run: npm test
+      #   continue-on-error: false
+      #   # Removed since automated tests aren't scaffolded yet.
+
+      - name: Package extension (.vsix)
+        run: npx vsce package
+
+      - name: Publish to VS Code Marketplace
+        run: npx vsce publish -p ${{ secrets.VSCE_TOKEN }}
+
+      - name: Publish to Open VSX Registry
+        run: npx ovsx publish -p ${{ secrets.OVSX_TOKEN }}
+        continue-on-error: true
+        # continue-on-error here so a hiccup on Open VSX doesn't fail the whole run
+        # if the Marketplace publish already succeeded. Remove if you want strict failure.
+
+      - name: Upload .vsix as release artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: extension-vsix
+          path: "*.vsix"
